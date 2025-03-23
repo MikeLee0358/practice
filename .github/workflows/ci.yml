@@ -12,18 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10 # 指定 pnpm 版本
+      - name: Install Bun
+        run: curl -fsSL https://bun.sh/install | bash
 
-      - name: Set node version to 18
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-          cache: 'pnpm'
+      - name: Set Bun Path
+        run: echo "::add-path::$(bun env | grep BUN_INSTALL | cut -d'=' -f2)/bin"
 
-      - run: pnpm install
+      - name: Install Dependencies
+        run: bun install --no-save # 不依赖 lock 文件安装
 
       - name: Run Prettier
-        run: pnpm run format
+        run: bun run format
