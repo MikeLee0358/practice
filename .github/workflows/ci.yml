@@ -1,22 +1,30 @@
-name: 'ci'
+name: autofix.ci
+
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
+permissions:
+  contents: read
+
 jobs:
-  format:
+  autofix:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Install Bun
-        run: curl -fsSL https://bun.sh/install | bash
+      - name: Use Node.js lts/*
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
 
-      - name: Set Bun Path
-        run: echo "::add-path::$(bun env | grep BUN_INSTALL | cut -d'=' -f2)/bin"
+      - name: Setup
+        run: npm install
 
-      - name: Install Dependencies
-        run: bun install
-
-      - name: Run Prettier
-        run: bun run format
+      - name: Lint
+        run: npm run format
