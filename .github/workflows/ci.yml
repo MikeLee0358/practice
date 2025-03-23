@@ -16,16 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js lts/*
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-          cache: 'pnpm' # 启用 pnpm 缓存以加速依赖安装
+          node-version-file: '.node-version'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install Dependencies
+      - name: Install deps
         run: pnpm install
 
       - name: Run Prettier Check
