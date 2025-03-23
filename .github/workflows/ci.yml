@@ -22,7 +22,7 @@ jobs:
           node-version: lts/*
 
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Run Prettier Check
-        run: npm run format:check
+        run: pnpm run format:check
