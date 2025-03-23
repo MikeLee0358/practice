@@ -8,7 +8,7 @@ on:
     branches:
       - main
 permissions:
-  contents: read
+  contents: write # 允许推送更改回 PR 分支
 
 jobs:
   autofix:
@@ -23,8 +23,17 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Setup
+      - name: Install Dependencies
         run: npm install
 
-      - name: Lint
-        run: npm run format
+      - name: Run Prettier Check
+        run: npm run format:check
+
+      - name: Fix Prettier Issues (if any)
+        run: |
+          npm run format
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: fix formatting issues" || echo "No changes to commit"
+          git push || echo "No changes to push"
