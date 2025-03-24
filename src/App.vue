@@ -1,16 +1,5 @@
 <script setup>
 import HelloWorld from "./components/HelloWorld.vue";
-
-const a = 1;
-const b = 1;
-
-function sum(a, b) {
-  {
-    console.log("sum", a, b);
-  }
-
-  return a + b;
-}
 </script>
 
 <template>
