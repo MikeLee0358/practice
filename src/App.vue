@@ -1,5 +1,7 @@
 <script setup>
 import HelloWorld from "./components/HelloWorld.vue";
+
+var a = 1;
 </script>
 
 <template>
